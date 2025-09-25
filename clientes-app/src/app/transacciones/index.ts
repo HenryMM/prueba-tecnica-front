@@ -1,0 +1,1 @@
+export { TransaccionesComponent } from './transacciones';

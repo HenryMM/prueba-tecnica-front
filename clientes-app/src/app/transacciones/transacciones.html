@@ -1,0 +1,74 @@
+<div class="transacciones-container">
+  <h2>Transacciones</h2>
+  <div class="opciones">
+    <button (click)="seleccionarOpcion('deposito')">Depósito</button>
+    <button (click)="seleccionarOpcion('retiro')">Retiro</button>
+  </div>
+
+
+  <!-- Modal de Depósito -->
+  <ng-container *ngIf="mostrarModalDeposito">
+    <ng-container *ngTemplateOutlet="depositoModal"></ng-container>
+  </ng-container>
+
+  <!-- Modal de Retiro -->
+  <ng-container *ngIf="mostrarModalRetiro">
+    <ng-container *ngTemplateOutlet="retiroModal"></ng-container>
+  </ng-container>
+  <ng-template #retiroModal>
+    <!-- Modal de retiro -->
+    <div class="modal-backdrop" (click)="onCancelarRetiro()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Retiro</h3>
+        <form (ngSubmit)="onRetirar()" #retiroForm="ngForm">
+          <div class="form-group">
+            <label for="cuentaRetiro">Cuenta</label>
+            <input id="cuentaRetiro" name="cuentaRetiro" [(ngModel)]="cuentaRetiro" required />
+          </div>
+          <div class="form-group">
+            <label for="montoRetiro">Monto</label>
+            <input id="montoRetiro" name="montoRetiro" type="number" [(ngModel)]="montoRetiro" required min="1" />
+          </div>
+          <div class="modal-actions">
+            <button type="submit" [disabled]="!retiroForm.form.valid">Retirar</button>
+            <button type="button" (click)="onCancelarRetiro()">Cancelar</button>
+          </div>
+        </form>
+        <div *ngIf="mensajeRetiro" class="mensaje-respuesta">
+          {{ mensajeRetiro }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="opcionSeleccionada === 'retiro'">
+    <h3>Retiro</h3>
+    <!-- Formulario de retiro aquí -->
+  </div>
+
+  <ng-template #depositoModal>
+    <!-- Modal de depósito -->
+    <div class="modal-backdrop" (click)="onCancelar()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Depósito</h3>
+        <form (ngSubmit)="onDepositar()" #depositoForm="ngForm">
+          <div class="form-group">
+            <label for="cuenta">Cuenta</label>
+            <input id="cuenta" name="cuenta" [(ngModel)]="cuenta" required />
+          </div>
+          <div class="form-group">
+            <label for="monto">Monto</label>
+            <input id="monto" name="monto" type="number" [(ngModel)]="monto" required min="1" />
+          </div>
+          <div class="modal-actions">
+            <button type="submit" [disabled]="!depositoForm.form.valid">Depositar</button>
+            <button type="button" (click)="onCancelar()">Cancelar</button>
+          </div>
+        </form>
+        <div *ngIf="mensajeDeposito" class="mensaje-respuesta">
+          {{ mensajeDeposito }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

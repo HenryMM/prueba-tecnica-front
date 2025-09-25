@@ -1,0 +1,19 @@
+<div class="modal-backdrop" (click)="$event.stopPropagation()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Depósito</h3>
+    <form (ngSubmit)="onDepositar()" #depositoForm="ngForm">
+      <div class="form-group">
+        <label for="cuenta">Cuenta</label>
+        <input id="cuenta" name="cuenta" [(ngModel)]="cuenta" required />
+      </div>
+      <div class="form-group">
+        <label for="monto">Monto</label>
+        <input id="monto" name="monto" type="number" [(ngModel)]="monto" required min="1" />
+      </div>
+      <div class="modal-actions">
+        <button type="submit" [disabled]="!depositoForm.form.valid">Depositar</button>
+        <button type="button" (click)="onCancelar()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

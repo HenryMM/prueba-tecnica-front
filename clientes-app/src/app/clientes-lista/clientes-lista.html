@@ -1,0 +1,212 @@
+
+
+
+<button class="btn-primary" type="button" (click)="abrirFormulario()">
+	<span class="icon">➕</span> Nuevo
+</button>
+
+<div *ngIf="mostrarFormulario" class="modal-overlay">
+	<div class="modal-content">
+		<form (ngSubmit)="guardarCliente()" autocomplete="off" class="form-clientes">
+					<div class="form-group">
+						<label>Contraseña
+							<input type="password" name="contrasena" [(ngModel)]="formData.contrasena" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Nombre
+							<input type="text" name="nombre" [(ngModel)]="formData.nombre" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Género
+							<input type="text" name="genero" [(ngModel)]="formData.genero" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Edad
+							<input type="number" name="edad" [(ngModel)]="formData.edad" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Identificación
+							<input type="text" name="identificacion" [(ngModel)]="formData.identificacion" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Dirección
+							<input type="text" name="direccion" [(ngModel)]="formData.direccion" required class="input-field">
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Teléfono
+							<input type="text" name="telefono" [(ngModel)]="formData.telefono" required class="input-field">
+						</label>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn-primary">Guardar</button>
+						<button type="button" class="btn-delete" (click)="cancelarFormulario()">Cancelar</button>
+					</div>
+		</form>
+	</div>
+</div>
+
+<div *ngIf="loading">Cargando clientes...</div>
+<div *ngIf="error">{{ error }}</div>
+<table *ngIf="!loading && !error" class="table">
+	<thead>
+		<tr>
+			<th>Nombre</th>
+			<th>Identificación</th>
+			<th>Dirección</th>
+			<th>Estado</th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let cliente of clientes">
+			<td>{{ cliente.nombre }}</td>
+			<td>{{ cliente.identificacion }}</td>
+			<td>{{ cliente.direccion }}</td>
+			<td>{{ cliente.estado }}</td>
+			<td>
+				<button class="btn-edit" type="button" (click)="abrirEditar(cliente)">
+					<span class="icon">✏️</span> Editar
+				</button>
+				<button class="btn-delete" type="button">
+					<span class="icon">🗑️</span> Eliminar
+				</button>
+				<div *ngIf="mostrarEditar" class="modal-overlay">
+					<div class="modal-content">
+						<form class="form-clientes">
+							<div class="form-group">
+								<label>Contraseña
+									<input type="password" name="editarContrasena" [(ngModel)]="editarData.contrasena" class="input-field">
+								</label>
+							</div>
+							<div class="form-group">
+								<label>Estado
+									<input type="text" name="editarEstado" [(ngModel)]="editarData.estado" class="input-field">
+								</label>
+							</div>
+							<div class="form-group">
+								<label>Nombre
+									<input type="text" name="editarNombre" [(ngModel)]="editarData.nombre" class="input-field">
+								</label>
+							</div>
+							<div class="form-actions">
+								<button type="button" class="btn-primary">Guardar</button>
+								<button type="button" class="btn-delete" (click)="cancelarEditar()">Cancelar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<style>
+		.btn-primary {
+			padding: 0.5rem 1.25rem;
+			border-radius: 0.375rem;
+			font-weight: 600;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			background: #a7f3d0;
+			color: #065f46;
+			border: none;
+			margin-bottom: 1rem;
+			transition: background 0.2s;
+			cursor: pointer;
+		}
+		.btn-primary:hover {
+			background: #6ee7b7;
+		}
+		.btn-edit {
+			padding: 0.35rem 0.9rem;
+			border-radius: 0.375rem;
+			font-weight: 500;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			background: #bfdbfe;
+			color: #1e40af;
+			border: none;
+			margin-right: 0.5rem;
+			cursor: pointer;
+			transition: background 0.2s;
+		}
+		.btn-edit:hover {
+			background: #93c5fd;
+		}
+		.btn-delete {
+			padding: 0.35rem 0.9rem;
+			border-radius: 0.375rem;
+			font-weight: 500;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			background: #fecaca;
+			color: #b91c1c;
+			border: none;
+			cursor: pointer;
+			transition: background 0.2s;
+		}
+		.btn-delete:hover {
+			background: #fca5a5;
+		}
+		.icon {
+			font-size: 1.1em;
+			vertical-align: middle;
+		}
+	.clientes-table {
+		width: 100%;
+		border-collapse: collapse;
+		background: #f1f5f9;
+		border-radius: 0.5rem;
+		overflow: hidden;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+		margin-bottom: 2rem;
+	}
+	.clientes-table th, .clientes-table td {
+		padding: 0.75rem 1rem;
+		text-align: left;
+	}
+	.clientes-table th {
+		background: #bae6fd;
+		color: #0369a1;
+		font-weight: 600;
+		border-bottom: 2px solid #7dd3fc;
+	}
+	.clientes-table tr:nth-child(even) {
+		background: #e0e7ef;
+	}
+	.clientes-table tr:nth-child(odd) {
+		background: #f8fafc;
+	}
+	.clientes-table td {
+		color: #334155;
+	}
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0,0,0,0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+	}
+	.modal-content {
+		background: #fff;
+		padding: 2rem 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+		min-width: 320px;
+		max-width: 90vw;
+	}
+</style>

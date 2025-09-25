@@ -1,0 +1,37 @@
+<div class="movimientos-grid-container">
+	<h2>Listado de Movimientos</h2>
+	<button class="btn-primary" type="button" (click)="descargarPDF()"><span class="icon">⬇️</span> Descargar reporte</button>
+	<div *ngIf="loading">Cargando movimientos...</div>
+	<div *ngIf="error">{{ error }}</div>
+	<table *ngIf="!loading && !error" class="table">
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Nombre Cliente</th>
+				<th>Número Cuenta</th>
+				<th>Tipo Cuenta</th>
+				<th>Saldo Inicial</th>
+				<th>Estado</th>
+				<th>Movimiento</th>
+				<th>Saldo Disponible</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let mov of movimientos">
+				<td>{{ mov.fecha | date:'yyyy-MM-dd HH:mm' }}</td>
+				<td>{{ mov.nombreCliente }}</td>
+				<td>{{ mov.numeroCuenta }}</td>
+				<td>{{ mov.tipoCuenta }}</td>
+				<td>{{ mov.saldoInicial | currency:'USD':'symbol':'1.2-2' }}</td>
+				<td>{{ mov.estado }}</td>
+				<td>{{ mov.movimiento | currency:'USD':'symbol':'1.2-2' }}</td>
+				<td>{{ mov.saldoDisponible | currency:'USD':'symbol':'1.2-2' }}</td>
+				<td>
+					<button class="btn-edit" type="button"><span class="icon">✏️</span> Editar</button>
+					<button class="btn-delete" type="button"><span class="icon">🗑️</span> Eliminar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
